@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Sync - Apps on Google Play</title>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green: #01875f;
+            --green-dark: #00694a;
+            --green-light: #e6f4ef;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --border: #e8eaed;
+            --bg: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --star: #f5a623;
+            --shadow: 0 1px 3px rgba(60,64,67,0.15), 0 1px 2px rgba(60,64,67,0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.5;
+        }
+
+        a { text-decoration: none; color: var(--green); }
+
+        /* ── Navbar ── */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 100;
+        }
+        .nav-logo {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav-search {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 24px;
+            display: flex;
+            align-items: center;
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            padding: 8px 16px;
+            gap: 10px;
+            border: 1px solid var(--border);
+        }
+        .nav-search input {
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            width: 100%;
+            outline: none;
+            color: var(--text-primary);
+        }
+        .nav-actions { display: flex; gap: 12px; align-items: center; }
+        .nav-icon-btn {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            background: transparent; border: none; cursor: pointer;
+            color: var(--text-secondary);
+            transition: background .2s;
+        }
+        .nav-icon-btn:hover { background: var(--bg-secondary); }
+        .nav-avatar {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 13px; font-weight: 500; cursor: pointer;
+        }
+
+        /* ── Main Layout ── */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 28px 24px;
+        }
+
+        /* ── App Header ── */
+        .app-header {
+            display: flex;
+            gap: 28px;
+            margin-bottom: 28px;
+            align-items: flex-start;
+        }
+        .app-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;   /* rounded corners like app icon */
+            overflow: hidden;      /* cuts extra image parts */
+            background: #fff;      /* fallback background */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            }
+
+            .app-icon img {
+            width: 120%;
+            height: 120%;
+            object-fit: cover;     /* 🔥 BEST for app icons */
+        }
+
+        .app-title-container { flex: 1; padding-top: 4px; }
+        .app-title {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 32px;
+            font-weight: 400;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+        .app-developer {
+            font-size: 15px;
+            color: var(--green);
+            font-weight: 500;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .app-tags {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            display: block;
+        }
+        .badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
+        .badge {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
+        }
+        .badge.green { border-color: #c8e6c9; background: #f1f8e9; color: #2e7d32; }
+
+        /* ── Stats Row ── */
+        .stats-row {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .stat-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 8px;
+            border-right: 1px solid var(--border);
+            background: var(--bg);
+            transition: background .2s;
+        }
+        .stat-item:last-child { border-right: none; }
+        .stat-item:hover { background: var(--bg-secondary); }
+        .stat-value {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 17px;
+            font-weight: 500;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            margin-bottom: 4px;
+        }
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+        .stars-small { display: flex; gap: 1px; }
+        .star-icon { color: var(--star); font-size: 14px; }
+
+        /* ── Action Buttons ── */
+        .actions-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+        .install-btn {
+            flex: 1;
+            background-color: var(--green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 32px;
+            font-family: 'Google Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            max-width: 340px;
+            transition: background-color .2s, transform .1s, box-shadow .2s;
+            box-shadow: 0 1px 3px rgba(1,135,95,0.4);
+        }
+        .install-btn:hover {
+            background-color: var(--green-dark);
+            box-shadow: 0 4px 12px rgba(1,135,95,0.35);
+            transform: translateY(-1px);
+        }
+        .install-btn:active { transform: translateY(0); }
+        .wishlist-btn {
+            width: 46px; height: 46px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: background .2s, border-color .2s;
+            color: var(--text-secondary);
+        }
+        .wishlist-btn:hover { background: var(--bg-secondary); border-color: #bdc1c6; }
+
+        /* ── Section ── */
+        .section { margin-bottom: 36px; }
+        .section-title {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 17px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-primary);
+        }
+        .section-title a {
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        /* ── Screenshots ── */
+        .screenshots-container {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 12px;
+            scrollbar-width: thin;
+            scrollbar-color: #dadce0 transparent;
+        }
+        .screenshots-container::-webkit-scrollbar { height: 6px; }
+        .screenshots-container::-webkit-scrollbar-thumb {
+            background: #dadce0; border-radius: 3px;
+        }
+        .screenshot {
+            min-width: 185px; height: 370px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            flex-shrink: 0;
+            position: relative;
+            background: linear-gradient(160deg, #e8f0fe 0%, #d2e3fc 100%);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; color: #4285f4; font-weight: 500;
+        }
+        .screenshot-inner {
+            width: 100%; height: 100%;
+            display: flex; flex-direction: column;
+            padding: 0;
+            overflow: hidden;
+        }
+        /* Simulated app screens */
+        .screen-header {
+            background: #1a73e8;
+            color: white;
+            padding: 14px 14px 10px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .screen-header small { display: block; font-size: 10px; opacity: .7; margin-top: 1px; }
+        .screen-body { padding: 12px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+        .screen-card {
+            background: white;
+            border-radius: 8px;
+            padding: 10px 12px;
+            box-shadow: 0 1px 4px rgba(0,0,0,.1);
+        }
+        .screen-card-title { font-size: 11px; font-weight: 600; color: #202124; }
+        .screen-card-sub { font-size: 10px; color: #5f6368; margin-top: 2px; }
+        .screen-chip {
+            display: inline-block;
+            padding: 2px 7px;
+            border-radius: 10px;
+            font-size: 9px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        .chip-green { background: #e6f4ef; color: #01875f; }
+        .chip-red { background: #fce8e6; color: #c5221f; }
+        .chip-yellow { background: #fef9e3; color: #b08000; }
+        .chip-blue { background: #e8f0fe; color: #1a73e8; }
+        .progress-row { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+        .progress-bar-bg { flex: 1; height: 4px; background: #e8eaed; border-radius: 2px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; border-radius: 2px; }
+        .screen-nav {
+            display: flex; background: white;
+            border-top: 1px solid #e8eaed;
+            padding: 8px 0 4px;
+        }
+        .screen-nav-item {
+            flex: 1; display: flex; flex-direction: column; align-items: center;
+            font-size: 9px; color: #5f6368; gap: 2px;
+        }
+        .screen-nav-item.active { color: #1a73e8; }
+        .screen-dot { width: 16px; height: 16px; border-radius: 4px; }
+
+        /* ── About Section ── */
+        .about-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        .about-text p { margin-bottom: 10px; }
+        .about-text p:last-child { margin-bottom: 0; }
+        .feature-list {
+            list-style: none;
+            margin: 12px 0 10px;
+        }
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 7px;
+        }
+        .feature-list li::before {
+            content: '✓';
+            color: var(--green);
+            font-weight: 700;
+            font-size: 13px;
+            margin-top: 1px;
+            flex-shrink: 0;
+        }
+        .read-more-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 8px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* ── Ratings Overview ── */
+        .ratings-overview {
+            display: flex;
+            gap: 28px;
+            padding: 20px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            margin-bottom: 24px;
+            align-items: center;
+        }
+        .rating-big {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 80px;
+        }
+        .rating-number {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 52px;
+            font-weight: 400;
+            line-height: 1;
+            color: var(--text-primary);
+        }
+        .rating-stars { display: flex; gap: 2px; margin: 6px 0 4px; }
+        .rating-count { font-size: 12px; color: var(--text-secondary); }
+        .rating-bars { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+        .rating-bar-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .bar-label { font-size: 12px; color: var(--text-secondary); width: 8px; }
+        .bar-track {
+            flex: 1;
+            height: 8px;
+            background: #e8eaed;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            background: var(--green);
+            border-radius: 4px;
+            transition: width .6s ease;
+        }
+        .bar-count { font-size: 12px; color: var(--text-secondary); width: 32px; text-align: right; }
+
+        /* ── Review Cards ── */
+        .review-filters {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+        .filter-chip {
+            padding: 6px 16px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            font-size: 13px;
+            background: white;
+            cursor: pointer;
+            white-space: nowrap;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: background .2s, border-color .2s;
+        }
+        .filter-chip:hover { background: var(--bg-secondary); }
+        .filter-chip.active {
+            background: #e8f5e9;
+            border-color: #a5d6a7;
+            color: #1b5e20;
+        }
+
+        .review-cards { display: flex; flex-direction: column; gap: 0; }
+        .review-card {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .review-card:last-child { border-bottom: none; }
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .reviewer-avatar {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 15px;
+            font-weight: 500;
+            color: white;
+            flex-shrink: 0;
+        }
+        .reviewer-info { flex: 1; }
+        .reviewer-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        .review-meta {
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .review-stars { display: flex; gap: 1px; }
+        .review-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .review-helpful {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        .helpful-label { margin-right: 4px; }
+        .helpful-btn {
+            display: flex; align-items: center; gap: 4px;
+            padding: 4px 12px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: white;
+            cursor: pointer;
+            font-size: 12px;
+            color: var(--text-secondary);
+            transition: background .2s;
+        }
+        .helpful-btn:hover { background: var(--bg-secondary); }
+
+        .dev-response {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-top: 12px;
+        }
+        .dev-response-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+        .dev-response-text { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+
+        /* ── What's New ── */
+        .whats-new-box {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin-top: 4px;
+        }
+        .version-tag {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--green);
+            margin-bottom: 8px;
+        }
+        .changelog-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .changelog-list li {
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: flex; gap: 8px; align-items: flex-start;
+        }
+        .changelog-list li::before {
+            content: '•'; color: var(--text-secondary); flex-shrink: 0;
+        }
+
+        /* ── App Info ── */
+        .app-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .info-item { display: flex; flex-direction: column; gap: 3px; }
+        .info-label { font-size: 12px; color: var(--text-secondary); }
+        .info-value { font-size: 14px; color: var(--text-primary); font-weight: 500; }
+
+        /* ── Divider ── */
+        .divider { height: 1px; background: var(--border); margin: 4px 0 32px; }
+
+        /* ── Responsive ── */
+        @media (max-width: 640px) {
+            .app-icon { width: 80px; height: 80px; border-radius: 18px; }
+            .app-icon svg { width: 42px; height: 42px; }
+            .app-title { font-size: 22px; }
+            .rating-number { font-size: 42px; }
+            .app-info-grid { grid-template-columns: 1fr; }
+            .nav-search { display: none; }
+            .ratings-overview { gap: 16px; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .container > * { animation: fadeInUp .3s ease forwards; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-logo">
+        <svg viewBox="0 0 40 40" width="28" height="28">
+            <path fill="#ea4335" d="M4.3,2.4L23.4,14L4.3,26.5V2.4z"/>
+            <path fill="#fbbc04" d="M23.4,14l11.6,6.7l-11.6,7l-5.6-5.6L23.4,14z"/>
+            <path fill="#34a853" d="M4.3,26.5l13.5,1.2l5.6-5.6L4.3,38V26.5z"/>
+            <path fill="#4285f4" d="M4.3,2.4L18,17.4l5.4-3.4L4.3,2.4z"/>
+        </svg>
+        Google Play
+    </div>
+    <div class="nav-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#5f6368"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <input type="text" placeholder="Search apps & games" value="Campus Sync">
+    </div>
+    <div class="nav-actions">
+        <button class="nav-icon-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        </button>
+        <div class="nav-avatar">S</div>
+    </div>
+</nav>
+
+<main class="container">
+
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="app-icon">
+             <img src="img/logo.jpg" alt="App Icon">
+        </div>
+        <div class="app-title-container">
+            <h1 class="app-title">Campus Sync</h1>
+            <a href="#" class="app-developer">Team Charlie</a>
+            <span class="app-tags">Contains ads · In-app purchases</span>
+            <div class="badge-row">
+                <span class="badge green">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+                    Editors' Choice
+                </span>
+                <span class="badge">🎓 Education</span>
+                <span class="badge">📱 Android</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Stats -->
+    <div class="stats-row">
+        <div class="stat-item">
+            <div class="stat-value">
+                4.8
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            </div>
+            <div class="stat-label">Rating</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">1.2K</div>
+            <div class="stat-label">Reviews</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">10K+</div>
+            <div class="stat-label">Downloads</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" style="font-size:13px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                India
+            </div>
+            <div class="stat-label">Region</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">E</div>
+            <div class="stat-label">Everyone</div>
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions-row">
+        <a href="campus_sync.apk" style="flex:1;max-width:340px;" download>
+            <button class="install-btn" style="width:100%;">
+                ↓ &nbsp; Install
+            </button>
+        </a>
+        <button class="wishlist-btn" title="Add to wishlist">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+        <button class="wishlist-btn" title="Share">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        </button>
+    </div>
+
+    <!-- Screenshots -->
+    <div class="section">
+        <div class="section-title">Screenshots</div>
+        <div class="screenshots-container">
+            <div class="screenshot">
+                <img src="img/1.png" alt="Dashboard">
+            </div>
+
+            <div class="screenshot">
+                <img src="img/2.png" alt="Attendance">
+            </div>
+            <div class="screenshot">
+                <img src="img/3.png" alt="Timetable">
+            </div>
+            <div class="screenshot">
+                <img src="img/4.png" alt="Timetable">
+            </div>
+            <div class="screenshot">
+                <img src="img/5.png" alt="Timetable">
+            </div>
+            <div class="screenshot">
+                <img src="img/6.png" alt="Timetable">
+            </div>        
+            
+        </div>
+
+        </div>
+    </div>
+    <head>
+        <style>
+            .screenshot {
+            width: 220px;
+            height: 450px;
+            overflow: hidden;
+            border-radius: 16px;
+            }
+
+            .screenshot img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            }
+        </style>
+    </head>
+
+    <div class="divider"></div>
+
+    <!-- About This App -->
+    <div class="section">
+        <div class="section-title">
+            About this app
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#5f6368"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+        </div>
+        <div class="about-text">
+            <p><strong style="color:#202124;">Campus Sync</strong> is the all-in-one academic companion built specifically for engineering students. Stop juggling between spreadsheets, WhatsApp groups, and paper registers — manage your entire semester from one beautifully designed app.</p>
+
+            <p>Whether you're tracking attendance before it drops below the 75% threshold, syncing your timetable across devices, or keeping up with exam schedules and assignment deadlines, Campus Sync has you covered — automatically.</p>
+
+            <p><strong style="color:#202124;">Key Features:</strong></p>
+            <ul class="feature-list">
+                <li>Smart Attendance Tracker — real-time subject-wise attendance with alerts when you're at risk of dropping below the required percentage</li>
+                <li>Timetable Sync — import or manually create your class schedule and get timely class-start reminders</li>
+                <li>Assignment & Deadline Manager — never miss a submission with smart push notifications up to 24 hours before deadlines</li>
+                <li>CGPA Calculator — simulate grade scenarios and plan your semester target with an intuitive grade predictor</li>
+                <li>Notice Board — receive official college notices and department announcements directly in the app</li>
+                <li>Exam Scheduler — auto-populated exam timetable with countdown timers and revision reminders</li>
+                <li>Offline Mode — core features work without internet, perfect for slow campus Wi-Fi conditions</li>
+                <li>Minimal & Fast — lightweight app (~12 MB) with no unnecessary bloat, optimized for mid-range Android phones</li>
+            </ul>
+
+            <p style="color:#202124;font-weight:500;">Who is this for?</p>
+            <p>Campus Sync was originally built for B.Tech students at IIT Patna and has since grown to serve students across multiple universities. If your college follows a semester-based credit system, Campus Sync adapts perfectly to your workflow.</p>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- What's New -->
+    <div class="section">
+        <div class="section-title">What's new</div>
+        <div class="whats-new-box">
+            <div class="version-tag">Version 2.4.1 · March 2025</div>
+            <ul class="changelog-list">
+                <li>Added CGPA predictor with target-grade simulation for upcoming semesters</li>
+                <li>Redesigned attendance dashboard with color-coded risk indicators</li>
+                <li>New offline mode — timetable and attendance now work without internet</li>
+                <li>Fixed crash on devices running Android 14 with dark mode enabled</li>
+                <li>Performance improvements — app launch time reduced by 40%</li>
+                <li>Bug fixes for timetable import from Google Calendar</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Ratings & Reviews -->
+    <div class="section">
+        <div class="section-title">
+            Ratings and reviews
+            <a href="#">See all</a>
+        </div>
+
+        <div class="ratings-overview">
+            <div class="rating-big">
+                <div class="rating-number">4.8</div>
+                <div class="rating-stars">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                </div>
+                <div class="rating-count">1.2K ratings</div>
+            </div>
+            <div class="rating-bars">
+                <div class="rating-bar-row">
+                    <span class="bar-label">5</span>
+                    <div class="bar-track"><div class="bar-fill" style="width:82%;"></div></div>
+                    <span class="bar-count">984</span>
+                </div>
+                <div class="rating-bar-row">
+                    <span class="bar-label">4</span>
+                    <div class="bar-track"><div class="bar-fill" style="width:11%;"></div></div>
+                    <span class="bar-count">132</span>
+                </div>
+                <div class="rating-bar-row">
+                    <span class="bar-label">3</span>
+                    <div class="bar-track"><div class="bar-fill" style="width:4%;background:#fbbc04;"></div></div>
+                    <span class="bar-count">48</span>
+                </div>
+                <div class="rating-bar-row">
+                    <span class="bar-label">2</span>
+                    <div class="bar-track"><div class="bar-fill" style="width:2%;background:#ea4335;"></div></div>
+                    <span class="bar-count">24</span>
+                </div>
+                <div class="rating-bar-row">
+                    <span class="bar-label">1</span>
+                    <div class="bar-track"><div class="bar-fill" style="width:1%;background:#ea4335;"></div></div>
+                    <span class="bar-count">12</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="review-filters">
+            <div class="filter-chip active">All</div>
+            <div class="filter-chip">Attendance</div>
+            <div class="filter-chip">Timetable</div>
+            <div class="filter-chip">UI Design</div>
+            <div class="filter-chip">Notifications</div>
+            <div class="filter-chip">Performance</div>
+        </div>
+
+        <div class="review-cards">
+
+            <!-- Review 1 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer-avatar" style="background:linear-gradient(135deg,#667eea,#764ba2);">R</div>
+                    <div class="reviewer-info">
+                        <div class="reviewer-name">Rohit Verma</div>
+                        <div class="review-meta">
+                            <div class="review-stars">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            </div>
+                            <span>March 18, 2025</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-text">This app literally saved my semester. I had no idea my DBMS attendance had dropped to 68% until the app sent me an alert. Immediately started attending every class and got it back up. The attendance tracker with subject-wise breakdown is incredibly detailed. Also love that it works offline during exams — our campus Wi-Fi is terrible.</div>
+                <div class="review-helpful">
+                    <span class="helpful-label">Helpful?</span>
+                    <button class="helpful-btn">👍 Yes &nbsp;(142)</button>
+                    <button class="helpful-btn">👎 No</button>
+                </div>
+                <div class="dev-response">
+                    <div class="dev-response-title">Team Charlie · March 20, 2025</div>
+                    <div class="dev-response-text">Thanks Rohit! We're really glad the attendance alert came in time 😊 Offline support was one of the most requested features — happy it's helping. We're working on predictive alerts to warn you even earlier!</div>
+                </div>
+            </div>
+
+            <!-- Review 2 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer-avatar" style="background:linear-gradient(135deg,#f093fb,#f5576c);">P</div>
+                    <div class="reviewer-info">
+                        <div class="reviewer-name">Priya Nair</div>
+                        <div class="review-meta">
+                            <div class="review-stars">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            </div>
+                            <span>March 5, 2025</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-text">Best app for IIT students, hands down. The CGPA calculator is super helpful — I simulated what grades I need in my remaining subjects to hit a 9.0 and it's actually motivating me to study harder. The timetable UI is clean, reminders are accurate, and the app is very snappy. Using it daily without any issues.</div>
+                <div class="review-helpful">
+                    <span class="helpful-label">Helpful?</span>
+                    <button class="helpful-btn">👍 Yes &nbsp;(98)</button>
+                    <button class="helpful-btn">👎 No</button>
+                </div>
+            </div>
+
+            <!-- Review 3 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer-avatar" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">S</div>
+                    <div class="reviewer-info">
+                        <div class="reviewer-name">Siddharth Kulkarni</div>
+                        <div class="review-meta">
+                            <div class="review-stars">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="#e8eaed"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            </div>
+                            <span>Feb 22, 2025</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-text">Really solid app overall. The timetable and notifications are spot on. One thing I'd love is a dark mode — the white background can be harsh during night study sessions. Also, a widget for the home screen showing today's classes would be a killer feature. Dropping one star for that, but this is still the best campus app I've tried.</div>
+                <div class="review-helpful">
+                    <span class="helpful-label">Helpful?</span>
+                    <button class="helpful-btn">👍 Yes &nbsp;(67)</button>
+                    <button class="helpful-btn">👎 No</button>
+                </div>
+                <div class="dev-response">
+                    <div class="dev-response-title">Team Charlie · Feb 25, 2025</div>
+                    <div class="dev-response-text">Great feedback, Siddharth! Dark mode is already in our v2.5 roadmap — expected release in April. The home screen widget is also being actively worked on. Keep an eye out for updates! 🌙</div>
+                </div>
+            </div>
+
+            <!-- Review 4 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer-avatar" style="background:linear-gradient(135deg,#43e97b,#38f9d7);">A</div>
+                    <div class="reviewer-info">
+                        <div class="reviewer-name">Aanya Mehta</div>
+                        <div class="review-meta">
+                            <div class="review-stars">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            </div>
+                            <span>Feb 10, 2025</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-text">Recommended this to my entire batch after mid-sems. The notice board feature is a hidden gem — I stopped missing important announcements completely. What surprised me was how lightweight the app is. My phone has limited storage and Campus Sync barely takes any space. Genuinely one of the most useful apps I've downloaded this year.</div>
+                <div class="review-helpful">
+                    <span class="helpful-label">Helpful?</span>
+                    <button class="helpful-btn">👍 Yes &nbsp;(53)</button>
+                    <button class="helpful-btn">👎 No</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- App Info -->
+    <div class="section">
+        <div class="section-title">App info</div>
+        <div class="app-info-grid">
+            <div class="info-item">
+                <span class="info-label">Version</span>
+                <span class="info-value">2.4.1</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Updated</span>
+                <span class="info-value">March 15, 2025</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Size</span>
+                <span class="info-value">12.3 MB</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Requires Android</span>
+                <span class="info-value">8.0 and up</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Content rating</span>
+                <span class="info-value">Everyone</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Developer</span>
+                <span class="info-value">Team Charlie</span>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script>
+    // Filter chips interactivity
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+        });
+    });
+
+    // Helpful button toggle
+    document.querySelectorAll('.helpful-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const parent = btn.parentElement;
+            const btns = parent.querySelectorAll('.helpful-btn');
+            btns.forEach(b => b.style.background = '');
+            btn.style.background = '#e6f4ef';
+            btn.style.borderColor = '#a8d5c2';
+        });
+    });
+
+    // Wishlist heart toggle
+    const wishBtn = document.querySelector('.wishlist-btn');
+    let wishlisted = false;
+    wishBtn.addEventListener('click', () => {
+        wishlisted = !wishlisted;
+        wishBtn.querySelector('path').setAttribute('fill', wishlisted ? '#ea4335' : 'none');
+        wishBtn.style.color = wishlisted ? '#ea4335' : '';
+        wishBtn.style.borderColor = wishlisted ? '#f5c6c2' : '';
+        wishBtn.style.background = wishlisted ? '#fce8e6' : '';
+    });
+</script>
+
+</body>
+</html>
